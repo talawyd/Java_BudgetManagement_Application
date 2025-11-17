@@ -1,0 +1,90 @@
+CREATE DATABASE IF NOT EXISTS sign_up;
+USE sign_up;
+
+CREATE TABLE IF NOT EXISTS users_login (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    userEmail VARCHAR(100) NOT NULL UNIQUE,
+    usersPw VARCHAR(100) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS userinfo (
+    id INT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    job VARCHAR(100),
+    salary DECIMAL(10,2) DEFAULT 0.00,
+    FOREIGN KEY (id) REFERENCES users_login(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS expense (
+    id INT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    exp1_name VARCHAR(100),
+    exp1_amount DECIMAL(10,2) DEFAULT 0.00,
+    exp2_name VARCHAR(100),
+    exp2_amount DECIMAL(10,2) DEFAULT 0.00,
+    exp3_name VARCHAR(100),
+    exp3_amount DECIMAL(10,2) DEFAULT 0.00,
+    exp4_name VARCHAR(100),
+    exp4_amount DECIMAL(10,2) DEFAULT 0.00,
+    exp5_name VARCHAR(100),
+    exp5_amount DECIMAL(10,2) DEFAULT 0.00,
+    exp6_name VARCHAR(100),
+    exp6_amount DECIMAL(10,2) DEFAULT 0.00,
+    exp7_name VARCHAR(100),
+    exp7_amount DECIMAL(10,2) DEFAULT 0.00,
+    exp8_name VARCHAR(100),
+    exp8_amount DECIMAL(10,2) DEFAULT 0.00,
+    exp9_name VARCHAR(100),
+    exp9_amount DECIMAL(10,2) DEFAULT 0.00,
+    exp10_name VARCHAR(100),
+    exp10_amount DECIMAL(10,2) DEFAULT 0.00,
+    FOREIGN KEY (id) REFERENCES users_login(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS goals (
+    id INT,
+    username VARCHAR(100) NOT NULL,
+    goalname VARCHAR(100) NOT NULL,
+    goalamount DECIMAL(10,2) NOT NULL,
+    paid DECIMAL(10,2) DEFAULT 0.00,
+    amount_left DECIMAL(10,2) NOT NULL,
+    status VARCHAR(20) DEFAULT 'In Progress',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (id, goalname),
+    FOREIGN KEY (id) REFERENCES users_login(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS bank_account (
+    id INT PRIMARY KEY,
+    balance DECIMAL(10,2) DEFAULT 0.00,
+    FOREIGN KEY (id) REFERENCES users_login(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS year (
+    id INT PRIMARY KEY,
+    Jan DECIMAL(10,2) DEFAULT 0.00,
+    Feb DECIMAL(10,2) DEFAULT 0.00,
+    Mar DECIMAL(10,2) DEFAULT 0.00,
+    Apr DECIMAL(10,2) DEFAULT 0.00,
+    May DECIMAL(10,2) DEFAULT 0.00,
+    Jun DECIMAL(10,2) DEFAULT 0.00,
+    Jul DECIMAL(10,2) DEFAULT 0.00,
+    Aug DECIMAL(10,2) DEFAULT 0.00,
+    Sep DECIMAL(10,2) DEFAULT 0.00,
+    Oct DECIMAL(10,2) DEFAULT 0.00,
+    Nov DECIMAL(10,2) DEFAULT 0.00,
+    Dece DECIMAL(10,2) DEFAULT 0.00,
+    FOREIGN KEY (id) REFERENCES users_login(id) ON DELETE CASCADE
+);
+
+CREATE INDEX idx_users_email ON users_login(userEmail);
+CREATE INDEX idx_goals_user ON goals(id);
+CREATE INDEX idx_expenses_user ON expense(id);
+CREATE INDEX idx_userinfo_user ON userinfo(id);
+
+INSERT IGNORE INTO users_login (username, userEmail, usersPw) VALUES 
+('testuser', 'test@example.com', 'password123');
+
+SHOW TABLES;
